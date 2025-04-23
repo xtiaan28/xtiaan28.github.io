@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clasificación - Fútbol App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            /* Texto blanco */
+        }
+
+        /* Contenedores de contenido con fondo semioscuro */
+        .content-box {
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .soccer-theme-bg {
+            background-color: #1a3a1f;
+            color: white;
+        }
+
+        /* Asegurar contraste en textos */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: #fff;
+        }
+
+        a {
+            color: #4ade80;
+            /* Verde claro para enlaces */
+            font-weight: 500;
+        }
+
+        a:hover {
+            color: #86efac;
+        }
+
+        /* Mejorar legibilidad de textos */
+        p,
+        li,
+        td,
+        th {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        #tables-container {
+            min-height: 600px;
+        }
+
+        /* Estilos para el iframe */
+        iframe {
+            min-height: 600px;
+            transition: height 0.3s ease;
+        }
+
+        /* Spinner de carga */
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+    </style>
+  <script type="module" crossorigin src="/assets/clasificacion-D7w3d-w6.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="soccer-theme-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <img src="https://oiifprkcbmmicxbtcffh.supabase.co/storage/v1/object/public/logos//asoba.png"
+                    alt="Logo Asociación" class="h-12 w-12 rounded-full">
+                <h1 class="text-xl font-bold">Asociación Barón</h1>
+            </div>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-6">
+                    <li><a href="index.html" class="px-3 py-2 rounded-lg hover:bg-green-700 transition">Inicio</a></li>
+                    <li><a href="/src/fixture.html"
+                            class="px-3 py-2 rounded-lg hover:bg-green-700 transition">Fixture</a></li>
+                    <li><a href="/src/resultados.html" class="px-3 py-2 rounded-lg hover:bg-green-700 transition">Resultados</a></li>
+                    <li><a href="#"
+                            class="px-3 py-2 rounded-lg hover:bg-green-700 transition">Clasificación</a></li>
+                </ul>
+            </nav>
+            <button class="md:hidden text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                    </path>
+                </svg>
+            </button>
+        </div>
+    </header>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden soccer-theme-bg text-white py-2">
+        <div class="container mx-auto px-4">
+            <ul class="flex flex-col space-y-2">
+                <li><a href="index.html" class="px-3 py-2 rounded-lg hover:bg-green-700 transition">Inicio</a></li>
+                <li><a href="/src/fixture.html"
+                        class="block px-3 py-2 rounded-lg hover:bg-green-700 transition">Fixture</a></li>
+                <li><a href="/src/resultados.html" class="block px-3 py-2 rounded-lg hover:bg-green-700 transition">Resultados</a></li>
+                <li><a href="#"
+                        class="block px-3 py-2 rounded-lg hover:bg-green-700 transition">Clasificación</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- Contenido Principal -->
+    <main class="flex-grow container mx-auto px-4 py-6">
+        <div class="mb-6">
+            <h1 class="text-2xl font-bold text-soccer-primary text-center mb-2">Clasificación por Categorías</h1>
+            <p class="text-white text-center">Selecciona una categoría para ver la tabla de posiciones</p>
+        </div>
+
+        <!-- Selector de Categoría (Mobile) -->
+        <div class="md:hidden mb-6">
+            <select id="categorySelect" class="w-full p-2 border border-soccer-primary rounded focus:outline-none focus:ring-2 focus:ring-soccer-secondary
+                       bg-gray-800 text-white appearance-none">
+                <option value="honor" class="bg-gray-800 text-white">Honor</option>
+                <option value="reserva" class="bg-gray-800 text-white">Reserva</option>
+                <option value="2da-adulto" class="bg-gray-800 text-white">2da Adulto</option>
+                <option value="senior" class="bg-gray-800 text-white">Senior</option>
+                <option value="super-seniors" class="bg-gray-800 text-white">Super Seniors</option>
+                <option value="femenino" class="bg-gray-800 text-white">Femenino</option>
+            </select>
+        </div>
+
+        <!-- Pestañas de Categoría (Desktop) -->
+        <div class="hidden md:flex justify-center mb-6 border-b border-gray-200">
+            <div class="flex space-x-1">
+                <button data-category="honor"
+                    class="category-tab px-4 py-2 font-medium rounded-t-lg hover:bg-gray-100 active-tab">
+                    Honor
+                </button>
+                <button data-category="reserva"
+                    class="category-tab px-4 py-2 font-medium rounded-t-lg hover:bg-gray-100">
+                    Reserva
+                </button>
+                <button data-category="2da-adulto"
+                    class="category-tab px-4 py-2 font-medium rounded-t-lg hover:bg-gray-100">
+                    2da Adulto
+                </button>
+                <button data-category="senior"
+                    class="category-tab px-4 py-2 font-medium rounded-t-lg hover:bg-gray-100">
+                    Senior
+                </button>
+                <button data-category="super-seniors"
+                    class="category-tab px-4 py-2 font-medium rounded-t-lg hover:bg-gray-100">
+                    Super Seniors
+                </button>
+                <button data-category="femenino"
+                    class="category-tab px-4 py-2 font-medium rounded-t-lg hover:bg-gray-100">
+                    Femenino
+                </button>
+            </div>
+        </div>
+
+        <!-- Contenedor de Tablas -->
+        <div id="tables-container" class="bg-white rounded-lg shadow-md overflow-hidden">
+            <!-- Las tablas se cargarán aquí por JavaScript -->
+            <div class="p-8 text-center">
+                <p class="text-gray-500">Selecciona una categoría para ver la clasificación</p>
+            </div>
+        </div>
+    </main>
+
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('header button').addEventListener('click', function () {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
